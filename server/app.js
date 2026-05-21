@@ -3,6 +3,8 @@ import express from "express";
 import orderRoutes from "./routes/orderRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import couponRoutes from "./routes/couponRoutes.js";
+import customRequestRoutes from "./routes/customRequestRoutes.js";
 
 const app = express();
 
@@ -34,6 +36,8 @@ app.get("/health", (_req, res) => {
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/coupons", couponRoutes);
+app.use("/api/custom-requests", customRequestRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ message: `Route not found: ${req.originalUrl}` });

@@ -10,9 +10,13 @@ import Checkout from "../pages/Checkout";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import OrderHistory from "../pages/OrderHistory";
+import OrderDetails from "../pages/OrderDetails";
 import ProductDetails from "../pages/ProductDetails";
 import Products from "../pages/Products";
 import Register from "../pages/Register";
+import AdminCoupons from "../pages/AdminCoupons";
+import CustomDesign from "../pages/CustomDesign";
+import AdminCustomRequests from "../pages/AdminCustomRequests";
 
 const AppRoutes = () => {
   return (
@@ -21,13 +25,15 @@ const AppRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
         <Route path="/product/:id" element={<ProductDetails />} />
-        <Route path="/cart" element={<Cart />} />
+        <Route path="/custom-design" element={<CustomDesign />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
         <Route element={<ProtectedRoute />}>
+          <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/orders" element={<OrderHistory />} />
+          <Route path="/order/:id" element={<OrderDetails />} />
         </Route>
 
         <Route element={<ProtectedRoute adminOnly />}>
@@ -35,6 +41,8 @@ const AppRoutes = () => {
           <Route path="/admin/products" element={<AdminProducts />} />
           <Route path="/admin/users" element={<AdminUsers />} />
           <Route path="/admin/orders" element={<AdminOrders />} />
+          <Route path="/admin/coupons" element={<AdminCoupons />} />
+          <Route path="/admin/custom-requests" element={<AdminCustomRequests />} />
         </Route>
       </Route>
     </Routes>

@@ -1,6 +1,8 @@
 import crypto from "crypto";
 import Razorpay from "razorpay";
 import Order from "../models/Order.js";
+import Coupon from "../models/Coupon.js";
+import { sendOrderNotification } from "../utils/emailService.js";
 
 const roundPrice = (num) => Number((Math.round(num * 100) / 100).toFixed(2));
 
@@ -77,8 +79,17 @@ export const createOrder = async (req, res) => {
       totalPrice: totals.totalPrice,
       paymentMethod,
       paymentStatus: paymentMethod === "COD" ? "COD_PENDING" : "PENDING",
-      orderStatus: paymentMethod === "COD" ? "CONFIRMED" : "PENDING",
+      orderStatus: "PENDING",
     });
+
+    if (req.body.couponCode) {
+      await Coupon.findOneAndUpdate(
+        { code: req.body.couponCode },
+        { $inc: { usedCount: 1 } }
+      );
+    }
+
+    sendOrderNotification(order, req.user.email);
 
     return res.status(201).json(order);
   } catch (error) {
@@ -123,6 +134,7 @@ export const createRazorpayOrder = async (req, res) => {
       paymentMethod: "RAZORPAY",
       razorpayOrderId: razorpayOrder.id,
       userId: req.user._id.toString(),
+      couponCode: req.body.couponCode || "",
     };
 
     const draftSignature = signDraft(orderDraft);
@@ -208,7 +220,7 @@ export const verifyRazorpayPaymentAndCreateOrder = async (req, res) => {
       totalPrice: totals.totalPrice,
       paymentMethod: "RAZORPAY",
       paymentStatus: "PAID",
-      orderStatus: "CONFIRMED",
+      orderStatus: "PENDING",
       paymentResult: {
         razorpayOrderId,
         razorpayPaymentId,
@@ -217,6 +229,15 @@ export const verifyRazorpayPaymentAndCreateOrder = async (req, res) => {
         failureReason: "",
       },
     });
+
+    if (orderDraft.couponCode) {
+      await Coupon.findOneAndUpdate(
+        { code: orderDraft.couponCode },
+        { $inc: { usedCount: 1 } }
+      );
+    }
+
+    sendOrderNotification(order, req.user.email);
 
     return res.status(201).json(order);
   } catch (error) {

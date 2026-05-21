@@ -2,11 +2,11 @@ import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 
 export const DEFAULT_ADMIN_EMAIL =
-  process.env.DEFAULT_ADMIN_EMAIL || "admin@nailartstudio.com";
+  process.env.DEFAULT_ADMIN_EMAIL || "urmilamca2025_76@ncrdsimsedu.in";
 export const DEFAULT_ADMIN_PASSWORD =
   process.env.DEFAULT_ADMIN_PASSWORD || "Admin@123";
 export const DEFAULT_ADMIN_NAME =
-  process.env.DEFAULT_ADMIN_NAME || "NailArt Admin";
+  process.env.DEFAULT_ADMIN_NAME || "Dreamy nails Admin";
 
 export const ensureDefaultAdminUser = async () => {
   const email = DEFAULT_ADMIN_EMAIL.trim().toLowerCase();

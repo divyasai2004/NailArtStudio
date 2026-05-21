@@ -204,9 +204,9 @@ const Register = () => {
       `}</style>
       <div className="auth-page">
         <div className="auth-card">
-          <div className="auth-brand">
-            <div className="auth-brand-dot" />
-            <span className="auth-brand-name">NailArt Studio</span>
+          <div className="auth-brand" style={{ justifyContent: "center", marginBottom: "24px" }}>
+            <img src="/logo.jpeg" alt="Logo" style={{ height: "60px", width: "auto", objectFit: "contain", borderRadius: "50%" }} />
+            <span className="auth-brand-name" style={{ marginLeft: "12px" }}>Dreamy nails</span>
           </div>
           <h1 className="auth-title">Create Account</h1>
           <p className="auth-sub">Join thousands of happy customers 💅</p>

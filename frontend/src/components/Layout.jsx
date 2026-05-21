@@ -16,21 +16,22 @@ const Layout = () => {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
 
         .site-header {
           position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
           height: var(--nav-h);
-          background: rgba(248,244,240,0.92);
+          background: rgba(251, 248, 247, 0.95);
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
-          border-bottom: 1px solid var(--blush);
+          border-bottom: 1px solid var(--border-light);
           display: flex; align-items: center;
+          box-shadow: var(--shadow-sm);
         }
 
         /* ── Admin header variant ── */
         .site-header--admin {
-          background: rgba(69,17,22,0.97);
+          background: rgba(74, 59, 60, 0.97);
           backdrop-filter: blur(12px);
           border-bottom: 1px solid rgba(255,255,255,0.08);
         }
@@ -43,18 +44,18 @@ const Layout = () => {
 
         /* Brand */
         .nav-brand {
-          font-family: var(--ff-serif); font-size: 1.35rem; font-weight: 400;
-          color: var(--crimson); letter-spacing: 0.01em; white-space: nowrap;
+          font-family: var(--ff-serif); font-size: 1.6rem; font-weight: 600;
+          color: var(--brand-primary-dark); letter-spacing: 0.01em; white-space: nowrap;
           text-decoration: none;
         }
-        .site-header--admin .nav-brand { color: var(--cream); }
+        .site-header--admin .nav-brand { color: var(--text-light); }
 
         /* Admin badge */
         .nav-admin-badge {
           display: inline-flex; align-items: center; gap: 6px;
-          background: rgba(255,255,255,0.12); color: var(--cream);
-          font-size: 0.6rem; font-weight: 500; letter-spacing: 0.18em;
-          text-transform: uppercase; padding: 4px 10px; border-radius: 2px;
+          background: rgba(255,255,255,0.12); color: var(--text-light);
+          font-size: 0.65rem; font-weight: 600; letter-spacing: 0.18em;
+          text-transform: uppercase; padding: 4px 10px; border-radius: var(--radius-full);
           border: 1px solid rgba(255,255,255,0.2);
         }
 
@@ -64,86 +65,87 @@ const Layout = () => {
         }
         .nav-link {
           display: inline-flex; align-items: center; gap: 6px;
-          padding: 8px 14px; border-radius: 2px;
-          font-size: 0.78rem; font-weight: 400; letter-spacing: 0.06em;
-          color: var(--text); text-decoration: none;
+          padding: 8px 14px; border-radius: var(--radius-sm);
+          font-size: 0.9rem; font-weight: 500; letter-spacing: 0.02em;
+          color: var(--text-main); text-decoration: none;
           transition: background 0.2s, color 0.2s;
           white-space: nowrap;
         }
-        .nav-link:hover { background: var(--blush); color: var(--crimson); }
-        .nav-link.active { color: var(--crimson); font-weight: 500; }
+        .nav-link:hover { background: var(--bg-accent); color: var(--brand-primary-dark); }
+        .nav-link.active { color: var(--brand-primary-dark); font-weight: 600; }
 
         /* Admin nav links */
         .site-header--admin .nav-link {
-          color: rgba(241,236,231,0.75);
+          color: rgba(255,255,255,0.75);
         }
         .site-header--admin .nav-link:hover {
-          background: rgba(255,255,255,0.1); color: var(--cream);
+          background: rgba(255,255,255,0.1); color: var(--text-light);
         }
-        .site-header--admin .nav-link.active { color: var(--cream); }
+        .site-header--admin .nav-link.active { color: var(--text-light); font-weight: 600; }
 
         /* Cart button */
         .nav-cart-btn {
           position: relative; display: inline-flex; align-items: center;
-          gap: 6px; padding: 8px 16px;
-          background: var(--crimson); color: var(--cream);
-          border: none; border-radius: 2px;
-          font-family: var(--ff-sans); font-size: 0.75rem;
-          font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
-          text-decoration: none; transition: background 0.25s, transform 0.2s;
-          cursor: pointer;
+          gap: 6px; padding: 10px 18px;
+          background: var(--brand-primary-gradient); color: var(--text-light);
+          border: none; border-radius: var(--radius-full);
+          font-family: var(--ff-sans); font-size: 0.85rem;
+          font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+          text-decoration: none; transition: all var(--ease-out) 0.3s;
+          cursor: pointer; box-shadow: var(--shadow-sm);
         }
-        .nav-cart-btn:hover { background: var(--rose); transform: translateY(-1px); }
+        .nav-cart-btn:hover { background: var(--brand-primary-dark); transform: translateY(-2px); box-shadow: var(--shadow-md); }
         .nav-cart-count {
-          background: var(--cream); color: var(--crimson);
-          font-size: 0.6rem; font-weight: 700; border-radius: 50%;
-          width: 16px; height: 16px; display: inline-flex;
+          background: var(--bg-card); color: var(--brand-primary-dark);
+          font-size: 0.75rem; font-weight: 700; border-radius: 50%;
+          width: 20px; height: 20px; display: inline-flex;
           align-items: center; justify-content: center;
         }
 
         /* Auth/logout */
         .nav-logout-btn {
-          padding: 8px 14px; background: none; border: 1px solid var(--blush);
-          border-radius: 2px; font-family: var(--ff-sans);
-          font-size: 0.75rem; font-weight: 400; letter-spacing: 0.1em;
-          color: var(--muted); cursor: pointer; text-transform: uppercase;
+          padding: 10px 18px; background: transparent; border: 1.5px solid var(--border-light);
+          border-radius: var(--radius-full); font-family: var(--ff-sans);
+          font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em;
+          color: var(--text-muted); cursor: pointer; text-transform: uppercase;
           transition: all 0.2s;
         }
-        .nav-logout-btn:hover { border-color: var(--crimson); color: var(--crimson); }
+        .nav-logout-btn:hover { border-color: var(--brand-primary-dark); color: var(--brand-primary-dark); background: var(--bg-accent); }
         .site-header--admin .nav-logout-btn {
-          border-color: rgba(255,255,255,0.2); color: rgba(241,236,231,0.6);
+          border-color: rgba(255,255,255,0.3); color: rgba(255,255,255,0.8);
         }
         .site-header--admin .nav-logout-btn:hover {
-          border-color: rgba(241,236,231,0.6); color: var(--cream);
+          border-color: rgba(255,255,255,0.8); color: var(--text-light); background: rgba(255,255,255,0.1);
         }
 
         .nav-auth-link {
-          padding: 8px 14px; font-size: 0.78rem; letter-spacing: 0.06em;
-          color: var(--muted); text-decoration: none;
+          padding: 8px 14px; font-size: 0.9rem; font-weight: 500;
+          color: var(--text-main); text-decoration: none;
           transition: color 0.2s;
         }
-        .nav-auth-link:hover { color: var(--crimson); }
+        .nav-auth-link:hover { color: var(--brand-primary-dark); }
+        
         .nav-register-btn {
-          padding: 9px 20px; background: var(--crimson); color: var(--cream);
-          border-radius: 2px; font-size: 0.72rem; font-weight: 500;
-          letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none;
-          transition: background 0.25s;
+          padding: 10px 22px; background: var(--brand-primary-gradient); color: var(--text-light);
+          border-radius: var(--radius-full); font-size: 0.85rem; font-weight: 600;
+          letter-spacing: 0.05em; text-transform: uppercase; text-decoration: none;
+          transition: all var(--ease-out) 0.3s; box-shadow: var(--shadow-sm);
         }
-        .nav-register-btn:hover { background: var(--rose); }
+        .nav-register-btn:hover { background: var(--brand-primary-dark); transform: translateY(-2px); box-shadow: var(--shadow-md); }
 
         /* Admin section pill */
         .nav-section-pill {
-          font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
-          color: rgba(241,236,231,0.4); padding: 0 8px;
-          border-left: 1px solid rgba(255,255,255,0.12);
+          font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+          color: rgba(255,255,255,0.5); padding: 0 8px;
+          border-left: 1px solid rgba(255,255,255,0.2);
           margin-left: 4px;
         }
 
         /* Divider */
         .nav-divider {
-          width: 1px; height: 18px; background: var(--blush); margin: 0 4px;
+          width: 1px; height: 20px; background: var(--border-light); margin: 0 8px;
         }
-        .site-header--admin .nav-divider { background: rgba(255,255,255,0.12); }
+        .site-header--admin .nav-divider { background: rgba(255,255,255,0.2); }
 
         /* Hamburger */
         .nav-hamburger {
@@ -151,22 +153,23 @@ const Layout = () => {
           background: none; border: none; padding: 8px; cursor: pointer;
         }
         .nav-hamburger span {
-          display: block; width: 22px; height: 1.5px;
-          background: var(--crimson); transition: all 0.3s;
+          display: block; width: 24px; height: 2px; border-radius: 2px;
+          background: var(--brand-primary-dark); transition: all 0.3s;
         }
-        .site-header--admin .nav-hamburger span { background: var(--cream); }
+        .site-header--admin .nav-hamburger span { background: var(--text-light); }
 
         /* Mobile nav */
         .nav-mobile {
           display: none; position: fixed;
           top: var(--nav-h); left: 0; right: 0;
-          background: var(--parchment); border-bottom: 1px solid var(--blush);
+          background: var(--bg-card); border-bottom: 1px solid var(--border-light);
           flex-direction: column; padding: 16px;
           gap: 4px; z-index: 999;
           box-shadow: var(--shadow-md);
         }
         .nav-mobile.open { display: flex; }
-        .nav-mobile .nav-link { padding: 12px 16px; font-size: 0.9rem; }
+        .nav-mobile .nav-link { padding: 12px 16px; font-size: 1rem; border-radius: var(--radius-sm); }
+        .nav-mobile .nav-link:hover { background: var(--bg-accent); }
 
         @media (max-width: 768px) {
           .nav-links { display: none; }
@@ -175,7 +178,7 @@ const Layout = () => {
 
         /* Footer */
         .site-footer {
-          background: var(--crimson); color: var(--cream);
+          background: var(--brand-primary-dark); color: var(--text-light);
           padding: clamp(40px,6vw,64px) clamp(16px,7vw,100px);
         }
         .footer-inner {
@@ -184,13 +187,13 @@ const Layout = () => {
           align-items: center; gap: 32px;
         }
         .footer-brand {
-          font-family: var(--ff-serif); font-size: 1.6rem; font-weight: 300;
-          color: var(--cream); margin-bottom: 8px;
+          font-family: var(--ff-serif); font-size: 1.8rem; font-weight: 500;
+          color: var(--text-light); margin-bottom: 8px;
         }
-        .footer-tagline { font-size: 0.82rem; color: rgba(241,236,231,0.55); }
+        .footer-tagline { font-size: 0.95rem; color: rgba(255,255,255,0.8); }
         .footer-copy {
-          font-size: 0.75rem; color: rgba(241,236,231,0.4);
-          letter-spacing: 0.08em;
+          font-size: 0.85rem; color: rgba(255,255,255,0.6);
+          letter-spacing: 0.05em;
         }
         @media (max-width: 600px) {
           .footer-inner { grid-template-columns: 1fr; }
@@ -198,11 +201,11 @@ const Layout = () => {
 
         /* Admin footer is minimal */
         .site-footer--admin {
-          background: rgba(69,17,22,0.06);
-          border-top: 1px solid var(--blush);
-          padding: 16px clamp(16px,7vw,100px);
+          background: var(--bg-main);
+          border-top: 1px solid var(--border-light);
+          padding: 24px clamp(16px,7vw,100px);
         }
-        .site-footer--admin .footer-copy { color: var(--muted); }
+        .site-footer--admin .footer-copy { color: var(--text-muted); }
       `}</style>
 
       <div className="app-shell">
@@ -214,9 +217,11 @@ const Layout = () => {
               to={isAdmin ? "/admin" : "/"}
               className="nav-brand"
               onClick={closeMobile}
+              style={{ display: "flex", alignItems: "center", gap: "10px" }}
             >
-              💅 NailArt Studio
-              {isAdmin && <span className="nav-admin-badge" style={{ marginLeft: 12 }}>Admin</span>}
+              <img src="/logo.jpeg" alt="Logo" style={{ height: "40px", width: "auto", objectFit: "contain", borderRadius: "50%" }} />
+              <span>Dreamy nails</span>
+              {isAdmin && <span className="nav-admin-badge">Admin</span>}
             </Link>
 
             {/* Desktop nav */}
@@ -239,6 +244,16 @@ const Layout = () => {
                     <li>
                       <Link className={`nav-link${location.pathname === "/admin/users" ? " active" : ""}`} to="/admin/users" onClick={closeMobile}>
                         👥 Users
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className={`nav-link${location.pathname === "/admin/coupons" ? " active" : ""}`} to="/admin/coupons" onClick={closeMobile}>
+                        🎟️ Coupons
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className={`nav-link${location.pathname === "/admin/custom-requests" ? " active" : ""}`} to="/admin/custom-requests" onClick={closeMobile}>
+                        🎨 Custom
                       </Link>
                     </li>
                     <li><div className="nav-divider" /></li>
@@ -318,6 +333,8 @@ const Layout = () => {
               <Link className="nav-link" to="/admin/products" onClick={closeMobile}>📦 Products</Link>
               <Link className="nav-link" to="/admin/orders" onClick={closeMobile}>🛍️ Orders</Link>
               <Link className="nav-link" to="/admin/users" onClick={closeMobile}>👥 Users</Link>
+              <Link className="nav-link" to="/admin/coupons" onClick={closeMobile}>🎟️ Coupons</Link>
+              <Link className="nav-link" to="/admin/custom-requests" onClick={closeMobile}>🎨 Custom</Link>
               <button className="nav-logout-btn" style={{ marginTop: 8 }} onClick={() => { logout(); closeMobile(); }}>Logout</button>
             </>
           ) : (
@@ -347,16 +364,25 @@ const Layout = () => {
           <footer className="site-footer">
             <div className="footer-inner">
               <div>
-                <p className="footer-brand">NailArt Studio</p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+                  <img src="/logo.jpeg" alt="Logo" style={{ height: "50px", width: "auto", objectFit: "contain", borderRadius: "50%", background: "#fff", padding: "4px" }} />
+                  <p className="footer-brand" style={{ margin: 0 }}>Dreamy nails</p>
+                </div>
                 <p className="footer-tagline">Handmade press-on nails for every vibe. ✨</p>
               </div>
-              <p className="footer-copy">© {new Date().getFullYear()} NailArt Studio</p>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px' }}>
+                <a href="https://www.instagram.com/the_dreamy_nails_?igsh=dHQ0eHdyNWprMDlx" target="_blank" rel="noopener noreferrer" style={{ color: "rgba(255,255,255,0.8)", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "0.9rem", transition: "color 0.2s" }} onMouseEnter={(e) => e.currentTarget.style.color = '#fff'} onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.8)'}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                  Follow us on Instagram
+                </a>
+                <p className="footer-copy" style={{ margin: 0 }}>© {new Date().getFullYear()} Dreamy nails</p>
+              </div>
             </div>
           </footer>
         )}
         {isAdmin && (
           <footer className="site-footer site-footer--admin">
-            <p className="footer-copy">Admin Panel · NailArt Studio © {new Date().getFullYear()}</p>
+            <p className="footer-copy">Admin Panel · Dreamy nails © {new Date().getFullYear()}</p>
           </footer>
         )}
       </div>

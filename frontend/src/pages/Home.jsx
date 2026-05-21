@@ -553,7 +553,7 @@ export default function Home() {
           </p>
           <div className="nh-hero__cta">
             <Link className="nh-btn-primary" to="/products">Shop Collection</Link>
-            <Link className="nh-btn-ghost" to="/products?category=Custom">Custom Design →</Link>
+            <Link className="nh-btn-ghost" to="/custom-design">Custom Design →</Link>
           </div>
         </div>
 
@@ -736,13 +736,13 @@ export default function Home() {
           <p className="nh-section-tag" style={{ justifyContent: "center" }}>Community</p>
           <h2 style={{ textAlign: "center" }}>Tag Us on Instagram</h2>
           <p className="nh-section__sub" style={{ margin: "0 auto", textAlign: "center" }}>
-            Show off your set and get featured on our page. Tag <strong style={{ color: "var(--cream)" }}>@yournailbrand</strong>
+            Show off your set and get featured on our page. Tag <a href="https://www.instagram.com/the_dreamy_nails_?igsh=dHQ0eHdyNWprMDlx" target="_blank" rel="noopener noreferrer" style={{ color: "var(--cream)", textDecoration: "none" }}><strong>@the_dreamy_nails_</strong></a>
           </p>
         </div>
 
         <div className="nh-insta-grid">
           {INSTA.map((em, i) => (
-            <div key={i} className="nh-insta-tile nh-reveal">
+            <a key={i} href="https://www.instagram.com/the_dreamy_nails_?igsh=dHQ0eHdyNWprMDlx" target="_blank" rel="noopener noreferrer" className="nh-insta-tile nh-reveal" style={{ textDecoration: 'none', color: 'inherit' }}>
               {/*
                 ┌───────────────────────────────────────────────────┐
                 │  INSTAGRAM / UGC PHOTOS — replace placeholder:     │
@@ -752,11 +752,11 @@ export default function Home() {
               */}
               <div className="nh-insta-tile__ph">{em}</div>
               <div className="nh-insta-tile__hover"><span>♥</span></div>
-            </div>
+            </a>
           ))}
         </div>
 
-        <p className="nh-insta-handle">@yournailbrand</p>
+        <a href="https://www.instagram.com/the_dreamy_nails_?igsh=dHQ0eHdyNWprMDlx" target="_blank" rel="noopener noreferrer" className="nh-insta-handle" style={{ display: 'block', textDecoration: 'none' }}>@the_dreamy_nails_</a>
       </section>
     </>
   );

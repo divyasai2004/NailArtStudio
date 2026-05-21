@@ -176,9 +176,9 @@ const Login = () => {
       `}</style>
       <div className="auth-page">
         <div className="auth-card">
-          <div className="auth-brand">
-            <div className="auth-brand-dot" />
-            <span className="auth-brand-name">NailArt Studio</span>
+          <div className="auth-brand" style={{ justifyContent: "center", marginBottom: "24px" }}>
+            <img src="/logo.jpeg" alt="Logo" style={{ height: "60px", width: "auto", objectFit: "contain", borderRadius: "50%" }} />
+            <span className="auth-brand-name" style={{ marginLeft: "12px" }}>Dreamy nails</span>
           </div>
           <h1 className="auth-title">Welcome Back</h1>
           <p className="auth-sub">Sign in to your account to continue</p>
@@ -236,7 +236,7 @@ const Login = () => {
             </button>
 
             <div className="auth-footer">
-              New to NailArt Studio?{" "}
+              New to Dreamy nails?{" "}
               <Link to="/register">Create a free account</Link>
             </div>
           </form>
