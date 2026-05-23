@@ -31,7 +31,9 @@ export const sendOrderNotification = async (order, userEmail) => {
       console.log(`Ethereal test account created: ${testAccount.user}`);
     } else {
       transporter = nodemailer.createTransport({
-        service: "gmail",
+        host: process.env.SMTP_HOST || "smtp.gmail.com",
+        port: process.env.SMTP_PORT || 587,
+        secure: process.env.SMTP_SECURE === "true", // true for port 465, false for 587
         auth: {
           user: process.env.EMAIL_USER,
           pass: process.env.EMAIL_PASS,
