@@ -15,22 +15,18 @@ export const CartProvider = ({ children }) => {
 
   const addToCart = useCallback(
     (item) => {
-      const itemKey = `${item.product}|${item.selectedSize || ""}|${
-        item.selectedShape || ""
-      }`;
+      const itemKey = `${item.product}|${item.selectedSize || ""}|${item.selectedShape || ""}`;
 
       const existing = cartItems.find(
         (cartItem) =>
-          `${cartItem.product}|${cartItem.selectedSize || ""}|${
-            cartItem.selectedShape || ""
-          }` === itemKey
+          `${cartItem.product}|${cartItem.selectedSize || ""}|${cartItem.selectedShape || ""}` ===
+          itemKey
       );
 
       if (existing) {
         const nextItems = cartItems.map((cartItem) =>
-          `${cartItem.product}|${cartItem.selectedSize || ""}|${
-            cartItem.selectedShape || ""
-          }` === itemKey
+          `${cartItem.product}|${cartItem.selectedSize || ""}|${cartItem.selectedShape || ""}` ===
+          itemKey
             ? {
                 ...cartItem,
                 quantity: cartItem.quantity + (item.quantity || 1),
@@ -56,9 +52,7 @@ export const CartProvider = ({ children }) => {
   const updateCartItemQty = useCallback(
     (itemKey, quantity) => {
       const nextItems = cartItems.map((item) =>
-        `${item.product}|${item.selectedSize || ""}|${
-          item.selectedShape || ""
-        }` === itemKey
+        `${item.product}|${item.selectedSize || ""}|${item.selectedShape || ""}` === itemKey
           ? { ...item, quantity }
           : item
       );
@@ -72,9 +66,7 @@ export const CartProvider = ({ children }) => {
     (itemKey) => {
       const nextItems = cartItems.filter(
         (item) =>
-          `${item.product}|${item.selectedSize || ""}|${
-            item.selectedShape || ""
-          }` !== itemKey
+          `${item.product}|${item.selectedSize || ""}|${item.selectedShape || ""}` !== itemKey
       );
 
       persist(nextItems);
