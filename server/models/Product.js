@@ -118,7 +118,7 @@ const productSchema = new mongoose.Schema(
     category: {
       type: String,
       required: true,
-      enum: ["Short", "Long", "Bridal", "Custom"],
+      enum: ["Extra Small", "Short", "Medium", "Long", "Extra Long", "Bridal", "Custom"],
     },
     sizeOptions: {
       type: [String],

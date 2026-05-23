@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { productApi } from "../api/productApi";
 
+const CATEGORIES = ["Extra Small", "Short", "Medium", "Long", "Extra Long", "Bridal", "Custom"];
+
 const AdminDashboard = () => {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
@@ -121,10 +123,9 @@ const AdminDashboard = () => {
             onChange={onChange}
           />
           <select name="category" value={form.category} onChange={onChange}>
-            <option value="Short">Short</option>
-            <option value="Long">Long</option>
-            <option value="Bridal">Bridal</option>
-            <option value="Custom">Custom</option>
+            {CATEGORIES.map((c) => (
+              <option key={c} value={c}>{c}</option>
+            ))}
           </select>
           <input
             name="price"

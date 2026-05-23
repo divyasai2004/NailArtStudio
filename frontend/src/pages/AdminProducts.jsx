@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { productApi } from "../api/productApi";
 
-const CATEGORIES = ["Short", "Long", "Bridal", "Custom"];
+const CATEGORIES = ["Extra Small", "Short", "Medium", "Long", "Extra Long", "Bridal", "Custom"];
 
 const emptyForm = {
   name: "",
