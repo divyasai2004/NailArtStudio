@@ -7,20 +7,38 @@ import { DEFAULT_ADMIN_EMAIL } from "./ensureAdminUser.js";
  * @param {String} userEmail - The email address of the user who placed the order.
  */
 export const sendOrderNotification = async (order, userEmail) => {
-  // If credentials are not set, log a warning and skip
-  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-    console.warn("EMAIL_USER or EMAIL_PASS not set in .env. Skipping email notification.");
-    return;
-  }
+    let transporter;
+    let senderEmail;
 
-  try {
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
+    if (
+      !process.env.EMAIL_USER || 
+      process.env.EMAIL_USER === "your_email@gmail.com" || 
+      !process.env.EMAIL_PASS
+    ) {
+      console.log("No real email credentials found. Generating Ethereal test account...");
+      const testAccount = await nodemailer.createTestAccount();
+      
+      transporter = nodemailer.createTransport({
+        host: "smtp.ethereal.email",
+        port: 587,
+        secure: false,
+        auth: {
+          user: testAccount.user,
+          pass: testAccount.pass,
+        },
+      });
+      senderEmail = testAccount.user;
+      console.log(`Ethereal test account created: ${testAccount.user}`);
+    } else {
+      transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
+        },
+      });
+      senderEmail = process.env.EMAIL_USER;
+    }
 
     const productsHtml = order.products
       .map(
@@ -80,23 +98,29 @@ export const sendOrderNotification = async (order, userEmail) => {
     `;
 
     // 1. Send to User
-    await transporter.sendMail({
-      from: `"Dreamy Nails" <${process.env.EMAIL_USER}>`,
+    const userInfo = await transporter.sendMail({
+      from: `"Dreamy Nails" <${senderEmail}>`,
       to: userEmail,
       subject: `Order Confirmation - #${order._id}`,
       html: `<h1>Thank you for your order!</h1><p>We've received your order and are getting it ready.</p>${orderHtml}`,
     });
     console.log(`Order confirmation email sent to user: ${userEmail}`);
+    if (userInfo.messageId && nodemailer.getTestMessageUrl(userInfo)) {
+      console.log(`Preview User Email: ${nodemailer.getTestMessageUrl(userInfo)}`);
+    }
 
     // 2. Send to Admin
     const adminEmail = DEFAULT_ADMIN_EMAIL;
-    await transporter.sendMail({
-      from: `"Dreamy Nails System" <${process.env.EMAIL_USER}>`,
+    const adminInfo = await transporter.sendMail({
+      from: `"Dreamy Nails System" <${senderEmail}>`,
       to: adminEmail,
       subject: `New Order Received - #${order._id}`,
       html: `<h1 style="color: #c0392b;">Action Required: New Order Received</h1><p>A new order has been placed on the website.</p>${orderHtml}`,
     });
     console.log(`Order notification email sent to admin: ${adminEmail}`);
+    if (adminInfo.messageId && nodemailer.getTestMessageUrl(adminInfo)) {
+      console.log(`Preview Admin Email: ${nodemailer.getTestMessageUrl(adminInfo)}`);
+    }
     
   } catch (error) {
     console.error("Error sending order notification emails:", error);
