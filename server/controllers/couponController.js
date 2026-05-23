@@ -121,3 +121,25 @@ export const validateCoupon = async (req, res) => {
     return res.status(500).json({ message: "Failed to validate coupon" });
   }
 };
+
+export const getMyCoupons = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    
+    // Find active coupons that are not expired
+    // and either have no assigned users (global) or have this user assigned
+    const coupons = await Coupon.find({
+      isActive: true,
+      expiryDate: { $gt: new Date() },
+      $or: [
+        { assignedUsers: { $exists: true, $size: 0 } },
+        { assignedUsers: { $exists: false } },
+        { assignedUsers: userId }
+      ]
+    }).sort({ createdAt: -1 });
+    
+    return res.status(200).json(coupons);
+  } catch (error) {
+    return res.status(500).json({ message: "Failed to fetch your coupons" });
+  }
+};

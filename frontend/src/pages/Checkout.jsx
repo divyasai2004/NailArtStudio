@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { orderApi } from "../api/orderApi";
 import { couponApi } from "../api/couponApi";
@@ -20,6 +20,7 @@ const Checkout = () => {
   const [discountAmount, setDiscountAmount] = useState(0);
   const [couponError, setCouponError] = useState("");
   const [isApplying, setIsApplying] = useState(false);
+  const [availableCoupons, setAvailableCoupons] = useState([]);
 
   const total = subtotal + deliveryFee - discountAmount;
 
@@ -34,6 +35,18 @@ const Checkout = () => {
     country: "India",
     paymentMethod: "COD",
   });
+
+  useEffect(() => {
+    const fetchCoupons = async () => {
+      try {
+        const coupons = await couponApi.getMyCoupons();
+        setAvailableCoupons(coupons);
+      } catch (error) {
+        console.error("Failed to fetch coupons", error);
+      }
+    };
+    fetchCoupons();
+  }, []);
 
   const onChange = (e) =>
     setForm((prev) => ({
@@ -198,6 +211,53 @@ const Checkout = () => {
                 </button>
               </div>
               {couponError && <p className="text-danger" style={{ fontSize: '0.85rem', marginTop: '8px' }}>{couponError}</p>}
+              
+              {availableCoupons.length > 0 && (
+                <div style={{ marginTop: '1rem' }}>
+                  <h4 style={{ fontSize: '0.9rem', marginBottom: '8px', color: 'var(--text-muted)' }}>Available for you</h4>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    {availableCoupons.map(coupon => (
+                      <div 
+                        key={coupon._id} 
+                        style={{ 
+                          border: '1px dashed var(--brand-primary)', 
+                          padding: '8px', 
+                          borderRadius: 'var(--radius-sm)',
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          background: 'var(--bg-light)'
+                        }}
+                      >
+                        <div>
+                          <strong style={{ display: 'block', color: 'var(--brand-primary-dark)' }}>{coupon.code}</strong>
+                          <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                            {coupon.discountType === 'PERCENTAGE' ? `${coupon.discountValue}% off` : `₹${coupon.discountValue} off`}
+                            {coupon.minOrderAmount > 0 && ` on orders above ₹${coupon.minOrderAmount}`}
+                          </span>
+                        </div>
+                        <button 
+                          type="button" 
+                          onClick={() => {
+                            setCouponCodeInput(coupon.code);
+                          }}
+                          style={{
+                            background: 'var(--brand-primary)',
+                            color: 'white',
+                            border: 'none',
+                            padding: '4px 8px',
+                            borderRadius: '4px',
+                            cursor: 'pointer',
+                            fontSize: '0.8rem'
+                          }}
+                        >
+                          Use
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </aside>

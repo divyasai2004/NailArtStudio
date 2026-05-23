@@ -21,6 +21,11 @@ export const couponApi = {
     return data;
   },
 
+  async getMyCoupons() {
+    const { data } = await httpClient.get("/coupons/my-coupons");
+    return data;
+  },
+
   async validateCoupon(payload) {
     // payload: { code, orderAmount }
     const { data } = await httpClient.post("/coupons/validate", payload);
